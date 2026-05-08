@@ -74,7 +74,7 @@ const toggleFaq = (index: number) => {
 .app-footer {
   background: v-bind('AppColor.surface');
   padding: 10px 5px 20px 5px;
-  margin-top: 20px;
+  margin: 10px;
 }
 
 /* FAQ STYLING */

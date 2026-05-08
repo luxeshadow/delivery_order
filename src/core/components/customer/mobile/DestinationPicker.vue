@@ -55,8 +55,7 @@ import { AppColor } from '@/core/constants/app_colors'
 
 <style scoped>
 .route-container {
-  margin: 5px;
-
+  margin: 10px;
   display: flex;
   align-items: flex-start;
   gap: 14px;
@@ -148,7 +147,7 @@ import { AppColor } from '@/core/constants/app_colors'
 }
 
 .start-btn {
-  margin-top: 18px;
+  margin: 10px;
   height: 36px;
   width: fit-content;
 

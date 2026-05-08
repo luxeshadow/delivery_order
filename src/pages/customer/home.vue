@@ -1,14 +1,14 @@
 <template>
-  <div class="home">
+
     <AppBar />
     <DestinationPicker />
     <PackageShowcase /> 
      <NavigationFloatingButton />
     <AssistanceProfileCard />
-     <Footer />
     
+     <Footer />
+     
 
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -19,9 +19,3 @@ import PackageShowcase from '@/core/components/customer/mobile/PackageShowcase.v
 import AssistanceProfileCard from '@/core/components/customer/mobile/AssistanceProfileCard.vue'
 import Footer from '@/core/components/customer/mobile/Footer.vue'
 </script>
-
-<style scoped>
-
-
-
-</style>

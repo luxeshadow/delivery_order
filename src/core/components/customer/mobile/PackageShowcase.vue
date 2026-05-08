@@ -54,6 +54,7 @@ import { AppImage } from '@/core/constants/app_images'
 <style scoped>
 .packages-section {
   padding: 20px 0; /* On enlève le padding latéral pour le scroll */
+  margin: 10px;
 }
 
 /* HEADER */

@@ -45,11 +45,10 @@ import { AppImage } from '@/core/constants/app_images'
 
 <style scoped>
 .assistance-card {
-    margin-top: 12px;
-  background: linear-gradient(135deg, v-bind('AppColor.primary.base'), #eb8f25); 
+  background: linear-gradient(135deg, #222121, #141414); 
   padding: 22px;
   border-radius: 26px;
-  
+  margin: 10px;
   display: flex;
   flex-direction: column;
   gap: 32px;

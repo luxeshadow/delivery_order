@@ -9,5 +9,8 @@
 body {
  
   font-family: 'Plus Jakarta Sans', sans-serif;
+   margin: 0;
+  padding: 0;
 }
+
 </style>
