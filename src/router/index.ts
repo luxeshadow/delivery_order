@@ -1,36 +1,38 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
 
   routes: [
+    {
+      path: '/',
+      redirect: '/driver'
+    },
+
     // --- ESPACE CLIENT ---
     {
       path: '/customer',
       name: 'customer-home',
       component: () => import('@/pages/customer/home.vue'),
       meta: {
-        title: 'Smart Order - Client'
+        title: 'Client'
       }
     },
 
-    // --- ESPACE DRIVER (Chauffeur) ---
+    // --- ESPACE DRIVER ---
     {
       path: '/driver',
       name: 'driver-home',
       component: () => import('@/pages/driver/home.vue'),
       meta: {
-        title: 'Dashboard Driver'
+        title: 'Driver'
       }
     },
-
-
   ],
 })
 
-// Mise à jour automatique du titre de l'onglet
 router.beforeEach((to) => {
-  document.title = to.meta.title as string || 'Smart Order'
+  document.title = (to.meta.title as string) || 'Smart Order'
 })
 
 export default router
