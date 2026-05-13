@@ -84,7 +84,7 @@ const startRoute = () => {
   position: relative;
   overflow: hidden;
   margin: 10px;
-  border-radius: 22px;
+  border-radius: 18px;
   background: v-bind('AppColor.primary.light');
   box-shadow: 0 10px 30px rgba(0,0,0,0.06);
 }

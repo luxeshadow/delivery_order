@@ -1,11 +1,12 @@
 <template>
   <Transition name="slide-down">
     <div v-if="show" class="order-alert-wrapper">
+
       <div class="order-card-refined">
-        
+
         <div class="image-container">
           <img :src="AppImage.package_1" alt="Colis" class="package-img" />
-          
+
           <div class="distance-tag">
             <i class="fi fi-rr-marker"></i>
             <span>{{ distance }} km</span>
@@ -21,40 +22,127 @@
         </div>
 
         <div class="card-actions">
-          <button class="btn-ignore" @click="$emit('close')">
+
+          <button class="btn-ignore" @click="handleClose">
             <i class="fi fi-rr-cross-small"></i>
             Ignorer
           </button>
-          
+
           <button class="btn-confirm" @click="handleAccept">
             Accepter
             <i class="fi fi-rr-check"></i>
           </button>
+
         </div>
 
       </div>
+
     </div>
   </Transition>
 </template>
 
 <script setup lang="ts">
-import { AppColor } from '@/core/constants/app_colors'
+import { onMounted, onBeforeUnmount } from 'vue'
 import { AppImage } from '@/core/constants/app_images'
+import { AppSong } from '@/core/constants/app_songs'
 
-defineProps({
+const props = defineProps({
   show: Boolean,
   distance: { type: String, default: '2.5' }
 })
 
-const handleAccept = () => {
-  console.log("Course acceptée !")
+const emit = defineEmits(['close', 'accept'])
+
+/* =======================
+   AUDIO LOOP SYSTEM
+======================= */
+
+let audio: HTMLAudioElement | null = null
+let loopActive = false
+
+const playSoundLoop = () => {
+  audio = new Audio(AppSong.newOrder)
+  audio.volume = 0.6
+  loopActive = true
+
+  const playCycle = async () => {
+    if (!audio || !loopActive) return
+
+    try {
+      await audio.play()
+    } catch (e) {
+      console.log('Audio bloqué par le navigateur')
+      return
+    }
+
+    audio.onended = () => {
+      if (!loopActive) return
+
+      setTimeout(() => {
+        if (loopActive && audio) {
+          audio.currentTime = 0
+          playCycle()
+        }
+      }, 200)
+    }
+  }
+
+  playCycle()
 }
+
+const stopSound = () => {
+  loopActive = false
+
+  if (audio) {
+    audio.pause()
+    audio.currentTime = 0
+    audio = null
+  }
+}
+
+/* =======================
+   VIBRATION
+======================= */
+
+const vibrate = () => {
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200])
+  }
+}
+
+/* =======================
+   ACTIONS
+======================= */
+
+const handleAccept = () => {
+  stopSound()
+  vibrate()
+  emit('accept')
+}
+
+const handleClose = () => {
+  stopSound()
+  vibrate()
+  emit('close')
+}
+
+/* =======================
+   LIFECYCLE
+======================= */
+
+onMounted(() => {
+  if (props.show) {
+    playSoundLoop()
+  }
+})
+
+onBeforeUnmount(() => {
+  stopSound()
+})
 </script>
 
 <style scoped>
-.fi-rr-check,.fi-rr-cross-small{
-    margin-top: 4px;
-}
+/* ==== WRAPPER ==== */
 .order-alert-wrapper {
   position: fixed;
   top: 20px;
@@ -66,6 +154,7 @@ const handleAccept = () => {
   padding: 0 15px;
 }
 
+/* ==== CARD ==== */
 .order-card-refined {
   background: white;
   width: 100%;
@@ -73,9 +162,9 @@ const handleAccept = () => {
   border-radius: 20px;
   padding: 12px;
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
-  border: 1px solid v-bind('AppColor.border');
 }
 
+/* ==== IMAGE ==== */
 .image-container {
   position: relative;
   width: 100%;
@@ -98,19 +187,14 @@ const handleAccept = () => {
   background: white;
   padding: 4px 10px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
   font-size: 11px;
   font-weight: 800;
-  color: v-bind('AppColor.text');
 }
 
-/* CONTENT */
+/* ==== CONTENT ==== */
 .card-content {
   text-align: left;
   margin-bottom: 15px;
-  padding: 0 5px;
 }
 
 .title-row {
@@ -120,25 +204,20 @@ const handleAccept = () => {
 }
 
 .icon-title {
-  color: v-bind('AppColor.primary.base');
-  font-size: 16px;
+  color: #ff7a00;
 }
 
 .card-content h3 {
   font-size: 16px;
   font-weight: 800;
-  color: v-bind('AppColor.text');
-  margin: 0;
 }
 
 .card-content p {
-  margin-top: 4px;
   font-size: 12px;
-  color: v-bind('AppColor.textLight');
-  line-height: 1.4;
+  color: #888;
 }
 
-/* ACTIONS */
+/* ==== ACTIONS ==== */
 .card-actions {
   display: flex;
   gap: 10px;
@@ -159,18 +238,18 @@ const handleAccept = () => {
 }
 
 .btn-ignore {
-  background: v-bind('AppColor.surface');
-  color: v-bind('AppColor.textLight');
+  background: #f2f2f2;
+  color: #666;
 }
 
 .btn-confirm {
-  background: v-bind('AppColor.primary.base');
+  background: #ff7a00;
   color: white;
 }
 
-/* NOUVELLE ANIMATION : VIENT DU HAUT */
+/* ==== ANIMATION ==== */
 .slide-down-enter-active {
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.5s ease;
 }
 .slide-down-leave-active {
   transition: all 0.3s ease;
