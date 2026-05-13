@@ -9,7 +9,6 @@ const router = createRouter({
       redirect: '/driver'
     },
 
-    // --- ESPACE CLIENT ---
     {
       path: '/customer',
       name: 'customer-home',

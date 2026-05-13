@@ -3,7 +3,7 @@
     <AppBar />
     <DestinationPicker />
     <PackageShowcase /> 
-     <NavigationFloatingButton />
+     <NavFloatButton to="/driver" />
     <AssistanceProfileCard />
     
      <Footer />

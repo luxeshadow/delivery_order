@@ -1,7 +1,7 @@
 <template>
-  <button class="nav-float-btn">
+  <button class="nav-float-btn" @click="go">
     <div class="inner-glow"></div>
-    
+
     <img
       :src="AppImage.navigation"
       alt="navigation"
@@ -11,8 +11,20 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { AppColor } from '@/core/constants/app_colors'
 import { AppImage } from '@/core/constants/app_images'
+
+const props = defineProps<{
+  to: string
+}>()
+
+const router = useRouter()
+
+const go = () => {
+  if (!props.to) return
+  router.push(props.to)
+}
 </script>
 
 <style scoped>

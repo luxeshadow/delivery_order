@@ -9,7 +9,7 @@
       />
       <OnlineToggle @status-change="handleStatusChange" />
       <AssistanceProfileCard />
-      <NavigationFloatingButton />
+      <NavFloatButton to="/customer" />
       <Info />
       <Footer />
     
